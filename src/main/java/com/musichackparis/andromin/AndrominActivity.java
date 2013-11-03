@@ -31,15 +31,15 @@ public class AndrominActivity extends Activity implements View.OnClickListener, 
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.androminactivity_fullscreen);
-        //findViewById(R.id.sine).setOnClickListener(this);
-        //findViewById(R.id.saw).setOnClickListener(this);
-        //findViewById(R.id.square).setOnClickListener(this);
+        findViewById(R.id.sine).setOnClickListener(this);
+        findViewById(R.id.saw).setOnClickListener(this);
+        findViewById(R.id.square).setOnClickListener(this);
 
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         //noinspection deprecation
         mSensor1 = mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
         mSensor2 = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        wavePlayer = new WavePlayer();
+        wavePlayer = new WavePlayer(this);
 
         Typeface myTypeface = Typeface.createFromAsset(getAssets(), "Airstream.ttf");
         overrideButtonTypeFace(R.id.saw, myTypeface);
@@ -55,15 +55,13 @@ public class AndrominActivity extends Activity implements View.OnClickListener, 
     private void toggleButtons(ToggleButton selectedButton) {
         for (int i : new int[] { R.id.sine, R.id.saw, R.id.square }) {
             if (selectedButton.getId() == i) {
-                selectedButton.toggle();
-
                 // not really working here:
                 // android:drawableLeft="@drawable/ic_lock_silent_mode_off"
-                selectedButton.setCompoundDrawablesWithIntrinsicBounds(selectedButton.isChecked()? getResources().getDrawable(R.drawable.ic_lock_silent_mode_off) : null, null, null, null);
+                selectedButton.setCompoundDrawablesWithIntrinsicBounds(selectedButton.isChecked() ? getResources().getDrawable(R.drawable.ic_lock_silent_mode_off) : null, null, null, null);
             } else {
                 ToggleButton btn = (ToggleButton) findViewById(i);
                 btn.setChecked(false);
-                selectedButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+                selectedButton.setCompoundDrawables(null, null, null, null);
             }
         }
     }
@@ -73,12 +71,15 @@ public class AndrominActivity extends Activity implements View.OnClickListener, 
     {
         toggleButtons((ToggleButton) v);
 
+        /*
         switch(v.getId())
         {
-            case R.id.sine: wavePlayer.playStopToggle(this); break;
-            case R.id.saw: wavePlayer.playStopToggle(this); break;
-            case R.id.square: wavePlayer.playStopToggle(this); break;
+            case R.id.sine: wavePlayer.playStopToggle(); break;
+            case R.id.saw: wavePlayer.playStopToggle(); break;
+            case R.id.square: wavePlayer.playStopToggle(); break;
         }
+        */
+        wavePlayer.playStopToggle();
     }
 
     protected void onResume()
@@ -91,6 +92,7 @@ public class AndrominActivity extends Activity implements View.OnClickListener, 
     protected void onPause()
     {
         super.onPause();
+        wavePlayer.stop();
         mSensorManager.unregisterListener(this);
     }
 
@@ -108,8 +110,11 @@ public class AndrominActivity extends Activity implements View.OnClickListener, 
         }
     }
 
-    private  WavePlayer wavePlayer = null;
+    //private  WavePlayer wavePlayer = null;
     private  SensorManager mSensorManager = null;
     private  Sensor mSensor1 = null;
     private  Sensor mSensor2 = null;
+
+    private WavePlayer wavePlayer;
+
 }

@@ -9,8 +9,9 @@ import android.util.FloatMath;
 
 public class WavePlayer implements AudioTrack.OnPlaybackPositionUpdateListener
 {
-	final int REFILLSIZE = 512;
+	final int REFILLSIZE = 1024;
 	final int SENSORREFILLSIZE = REFILLSIZE*10;
+    private static final float TWOPI = 2 * (float)Math.PI;
 	
 	private AudioTrack track = null;
 	private short[] audioData = new short[REFILLSIZE];
@@ -19,62 +20,44 @@ public class WavePlayer implements AudioTrack.OnPlaybackPositionUpdateListener
 	private int pitchSensorTop = 0;
 	private int gainSensorTop = 0;
 	private int sampleRate;
-	private int bufferSize;
 	private float cycleState = 0;
-    private boolean playState = false; // not playing
+    private transient boolean playing = false; // not playing
+    private Context ctx;
 
-	public WavePlayer()
+	public WavePlayer(Context ctx)
 	{
 		super();
-		
+		this.ctx = ctx;
 		sampleRate = AudioTrack.getNativeOutputSampleRate(AudioManager.STREAM_MUSIC);
 		int minBufferSize = AudioTrack.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT);
-		bufferSize = 2*minBufferSize;
+		int bufferSize = 2*minBufferSize;
 		
 		track = new AudioTrack(AudioManager.STREAM_MUSIC, sampleRate, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, bufferSize, AudioTrack.MODE_STREAM);
 	}
 
-    public void playStopToggle(Context ctx)
+    public void playStopToggle()
     {
-        if (playState)
-        {
-            stop(ctx);
-            playState = false;
-        }
-        else
-        {
-            play(ctx);
-            playState = true;
+        if (playing) {
+            stop();
+        } else {
+            play();
         }
     }
-	public void play(Context ctx)
-	{
-		Toast.makeText(ctx, "play>", Toast.LENGTH_SHORT).show();
-		
-		track.stop();
-		
-		// must fill 1 buffer for the sound to start
-		int bytes = 0;
-		for (bytes=0; bytes<bufferSize; bytes+= REFILLSIZE)
-		{
-			refill();
-		}
-		refill();
-		
-		// setup callback
-		track.setPlaybackPositionUpdateListener(this);
-		track.setNotificationMarkerPosition(4*REFILLSIZE); // marker at one half refill before end
-		track.play();
-	}
-	
-	public void stop(Context ctx)
-	{
-		Toast.makeText(ctx, "<>stop", Toast.LENGTH_SHORT).show();
-		
-		track.stop();
-	}
-	
-	public void refill()
+
+    public void play() {
+        Toast.makeText(ctx, "play>", Toast.LENGTH_SHORT).show();
+        new Thread(new SineGenerator()).start();
+        track.play();
+        playing = true;
+    }
+
+    public void stop() {
+        Toast.makeText(ctx, "<>stop", Toast.LENGTH_SHORT).show();
+        playing = false;
+        track.stop();
+    }
+
+    public void refill()
 	{
 		
 		int i, k, m = 0;
@@ -147,4 +130,29 @@ public class WavePlayer implements AudioTrack.OnPlaybackPositionUpdateListener
 			Toast.makeText(ctx, "Overflow!", Toast.LENGTH_SHORT).show();
 		}
 	}
+
+    private class SineGenerator implements Runnable {
+
+        @Override
+        public void run() {
+            Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
+
+            /* 8000 bytes per second, 1000 bytes = 125 ms */
+            short[] audioData = new short[REFILLSIZE];
+            while(playing) {
+
+                float freq = 2000, gain = 6000, nbSamplesPerCycle;
+                for (int i=0; i<REFILLSIZE; i++)
+                {
+                    // interpolation: use all sensor data in one buffer
+                    nbSamplesPerCycle = (float)sampleRate / freq;
+                    cycleState += TWOPI  / nbSamplesPerCycle;
+                    audioData[i] = (short)FloatMath.floor(FloatMath.sin(cycleState) * gain);
+                    if (cycleState > TWOPI)
+                        cycleState -= TWOPI;
+                }
+                track.write(audioData, 0, audioData.length);
+            }
+        }
+    }
 }
