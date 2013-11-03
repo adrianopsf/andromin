@@ -4,5 +4,8 @@
     <string name="app_name">Andromin</string>
     <string name="stop">Stop</string>
     <string name="play">Play</string>
+    <string name="sine">Sine wave</string>
+    <string name="saw">Saw wave</string>
+    <string name="square">Square wave</string>
 
 </resources>
