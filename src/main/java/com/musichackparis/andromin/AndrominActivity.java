@@ -2,17 +2,13 @@ package com.musichackparis.andromin;
 
 import com.musichackparis.andromin.util.SystemUiHider;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ToggleButton;
@@ -25,6 +21,16 @@ import android.widget.ToggleButton;
  */
 public class AndrominActivity extends Activity implements View.OnClickListener, SensorEventListener
 {
+
+    private  SensorManager mSensorManager = null;
+    private  Sensor mSensor1 = null;
+    private  Sensor mSensor2 = null;
+
+    private WavePlayer wavePlayer;
+
+    /** type of curve that has been selected */
+    private int selectedGenerator;
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -69,6 +75,7 @@ public class AndrominActivity extends Activity implements View.OnClickListener, 
     @Override
     public void onClick(View v)
     {
+        selectedGenerator = v.getId();
         toggleButtons((ToggleButton) v);
 
         /*
@@ -110,11 +117,7 @@ public class AndrominActivity extends Activity implements View.OnClickListener, 
         }
     }
 
-    //private  WavePlayer wavePlayer = null;
-    private  SensorManager mSensorManager = null;
-    private  Sensor mSensor1 = null;
-    private  Sensor mSensor2 = null;
-
-    private WavePlayer wavePlayer;
-
+    public int getSelectedGenerator() {
+        return selectedGenerator;
+    }
 }

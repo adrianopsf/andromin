@@ -22,9 +22,9 @@ public class WavePlayer implements AudioTrack.OnPlaybackPositionUpdateListener
 	private int sampleRate;
 	private float cycleState = 0;
     private transient boolean playing = false; // not playing
-    private Context ctx;
+    private AndrominActivity ctx;
 
-	public WavePlayer(Context ctx)
+	public WavePlayer(AndrominActivity ctx)
 	{
 		super();
 		this.ctx = ctx;
@@ -33,6 +33,7 @@ public class WavePlayer implements AudioTrack.OnPlaybackPositionUpdateListener
 		int bufferSize = 2*minBufferSize;
 		
 		track = new AudioTrack(AudioManager.STREAM_MUSIC, sampleRate, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, bufferSize, AudioTrack.MODE_STREAM);
+
 	}
 
     public void playStopToggle()
@@ -45,10 +46,15 @@ public class WavePlayer implements AudioTrack.OnPlaybackPositionUpdateListener
     }
 
     public void play() {
-        Toast.makeText(ctx, "play>", Toast.LENGTH_SHORT).show();
-        new Thread(new SineGenerator()).start();
-        track.play();
         playing = true;
+        Toast.makeText(ctx, "play>", Toast.LENGTH_SHORT).show();
+        Runnable generator = ctx.getSelectedGenerator() == R.id.sine? new SineGenerator() :
+                ctx.getSelectedGenerator() == R.id.saw? new SawGenerator() :
+                        new SquareGenerator();
+        Thread thread = new Thread(generator);
+        thread.setPriority(Thread.MIN_PRIORITY);
+        thread.start();
+        track.play();
     }
 
     public void stop() {
@@ -135,7 +141,6 @@ public class WavePlayer implements AudioTrack.OnPlaybackPositionUpdateListener
 
         @Override
         public void run() {
-            Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
 
             /* 8000 bytes per second, 1000 bytes = 125 ms */
             short[] audioData = new short[REFILLSIZE];
@@ -155,4 +160,5 @@ public class WavePlayer implements AudioTrack.OnPlaybackPositionUpdateListener
             }
         }
     }
+
 }
