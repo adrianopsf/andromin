@@ -28,7 +28,9 @@ public class AndrominActivity extends Activity implements View.OnClickListener, 
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.androminactivity_fullscreen);
-        findViewById(R.id.play).setOnClickListener(this);
+        findViewById(R.id.sine).setOnClickListener(this);
+        findViewById(R.id.saw).setOnClickListener(this);
+        findViewById(R.id.square).setOnClickListener(this);
 
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         mSensor1 = mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
@@ -41,7 +43,9 @@ public class AndrominActivity extends Activity implements View.OnClickListener, 
     {
         switch(v.getId())
         {
-            case R.id.play: wavePlayer.playStopToggle(this); break;
+            case R.id.sine: wavePlayer.playStopToggle(this); break;
+            case R.id.saw: wavePlayer.playStopToggle(this); break;
+            case R.id.square: wavePlayer.playStopToggle(this); break;
         }
     }
 
