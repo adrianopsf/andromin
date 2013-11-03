@@ -29,7 +29,6 @@ public class AndrominActivity extends Activity implements View.OnClickListener, 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.androminactivity_fullscreen);
         findViewById(R.id.play).setOnClickListener(this);
-        findViewById(R.id.stop).setOnClickListener(this);
 
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         mSensor1 = mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
