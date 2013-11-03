@@ -29,40 +29,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         >
 
-        <Button android:id="@+id/play"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+        <Button android:id="@+id/sine"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="@string/play" />
-        <LinearLayout android:id="@+id/fullscreen_content_controls"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:layout_gravity="center"
-                  android:orientation="vertical"
-            >
-            <Button android:id="@+id/sine"
-                    style="?buttonBarButtonStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:text="@string/sine" />
-            <Button android:id="@+id/saw"
-                    style="?buttonBarButtonStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:text="@string/saw" />
-            <Button android:id="@+id/square"
-                    style="?buttonBarButtonStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:text="@string/square" />
+                android:text="@string/sine"
+                android:fontFamily=""
+                />
+        <Button android:id="@+id/saw"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/saw" />
+        <Button android:id="@+id/square"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/square" />
 
-        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>
