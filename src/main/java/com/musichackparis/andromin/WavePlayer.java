@@ -21,6 +21,7 @@ public class WavePlayer implements AudioTrack.OnPlaybackPositionUpdateListener
 	private int sampleRate;
 	private int bufferSize;
 	private float cycleState = 0;
+    private boolean playState = false; // not playing
 
 	public WavePlayer()
 	{
@@ -32,7 +33,20 @@ public class WavePlayer implements AudioTrack.OnPlaybackPositionUpdateListener
 		
 		track = new AudioTrack(AudioManager.STREAM_MUSIC, sampleRate, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, bufferSize, AudioTrack.MODE_STREAM);
 	}
-	
+
+    public void playStopToggle(Context ctx)
+    {
+        if (playState)
+        {
+            stop(ctx);
+            playState = false;
+        }
+        else
+        {
+            start(ctx);
+            playState = true;
+        }
+    }
 	public void play(Context ctx)
 	{
 		Toast.makeText(ctx, "play>", Toast.LENGTH_SHORT).show();
