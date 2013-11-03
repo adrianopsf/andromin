@@ -67,7 +67,7 @@ public class AndrominActivity extends Activity implements View.OnClickListener, 
             } else {
                 ToggleButton btn = (ToggleButton) findViewById(i);
                 btn.setChecked(false);
-                selectedButton.setCompoundDrawables(null, null, null, null);
+                btn.setCompoundDrawables(null, null, null, null);
             }
         }
     }
