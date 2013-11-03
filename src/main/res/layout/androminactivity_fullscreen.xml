@@ -1,9 +1,9 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#0099cc"
-    tools:context=".AndrominActivity">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:k="http://schemas.android.com/apk/res-auto/com.koliseo.android"
+                android:id="@+id/login"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
@@ -18,40 +18,51 @@
             android:layout_centerInParent="true"
             android:scaleType="centerCrop"
 
-
-            />
-    <!--
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="0dip"
             android:layout_marginTop="0dip"
-    -->
-
-
-
+            />
 
     <LinearLayout android:id="@+id/fullscreen_content_controls"
         style="?buttonBarStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:background="@color/black_overlay"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:orientation="horizontal"
-        tools:ignore="UselessParent">
+        >
 
         <Button android:id="@+id/play"
-                style="?buttonBarButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/play" />
-        <Button android:id="@+id/stop"
-                style="?buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/stop" />
+        <LinearLayout android:id="@+id/fullscreen_content_controls"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:layout_gravity="center"
+                  android:orientation="vertical"
+            >
+            <Button android:id="@+id/sine"
+                    style="?buttonBarButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/sine" />
+            <Button android:id="@+id/saw"
+                    style="?buttonBarButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/saw" />
+            <Button android:id="@+id/square"
+                    style="?buttonBarButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/square" />
 
+        </LinearLayout>
     </LinearLayout>
 
-</FrameLayout>
+</RelativeLayout>
