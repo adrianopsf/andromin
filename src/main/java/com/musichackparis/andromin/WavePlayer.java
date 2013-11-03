@@ -54,17 +54,16 @@ public class WavePlayer implements AudioTrack.OnPlaybackPositionUpdateListener
 		track.stop();
 		
 		// must fill 1 buffer for the sound to start
-		int n = 0;
-		for (int i=0; i<bufferSize; i+= REFILLSIZE)
+		int bytes = 0;
+		for (bytes=0; bytes<bufferSize; bytes+= REFILLSIZE)
 		{
 			refill();
-			n++;
 		}
 		refill();
 		
 		// setup callback
 		track.setPlaybackPositionUpdateListener(this);
-		track.setNotificationMarkerPosition(REFILLSIZE*n - REFILLSIZE/2); // marker at half buffer before end
+		track.setNotificationMarkerPosition(4*REFILLSIZE); // marker at one half refill before end
 		track.play();
 	}
 	
