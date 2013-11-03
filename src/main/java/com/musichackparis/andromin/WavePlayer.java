@@ -30,7 +30,7 @@ public class WavePlayer implements AudioTrack.OnPlaybackPositionUpdateListener
 		this.ctx = ctx;
 		sampleRate = AudioTrack.getNativeOutputSampleRate(AudioManager.STREAM_MUSIC);
 		int minBufferSize = AudioTrack.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT);
-		int bufferSize = 2*minBufferSize;
+		int bufferSize = 4*minBufferSize;
 		
 		track = new AudioTrack(AudioManager.STREAM_MUSIC, sampleRate, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, bufferSize, AudioTrack.MODE_STREAM);
 
@@ -144,17 +144,13 @@ public class WavePlayer implements AudioTrack.OnPlaybackPositionUpdateListener
 
             /* 8000 bytes per second, 1000 bytes = 125 ms */
             short[] audioData = new short[REFILLSIZE];
-            while(playing) {
+            float freq = 2000, gain = 6000, nbSamplesPerCycle;
 
-                float freq = 2000, gain = 6000, nbSamplesPerCycle;
+            while(playing) {
                 for (int i=0; i<REFILLSIZE; i++)
                 {
-                    // interpolation: use all sensor data in one buffer
                     nbSamplesPerCycle = (float)sampleRate / freq;
-                    cycleState += TWOPI  / nbSamplesPerCycle;
-                    audioData[i] = (short)FloatMath.floor(FloatMath.sin(cycleState) * gain);
-                    if (cycleState > TWOPI)
-                        cycleState -= TWOPI;
+                    audioData[i] = (short)FloatMath.floor(FloatMath.sin(TWOPI/REFILLSIZE*freq*i) * gain);
                 }
                 track.write(audioData, 0, audioData.length);
             }
