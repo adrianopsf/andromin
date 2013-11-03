@@ -25,30 +25,27 @@
             />
 
     <LinearLayout android:id="@+id/fullscreen_content_controls"
-        style="?buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:orientation="vertical"
         >
 
-        <Button android:id="@+id/sine"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="@string/sine"
-                android:fontFamily=""
+        <ToggleButton android:id="@+id/sine"
+                android:textOff="@string/sine"
+                style="@style/retroButton"
+                android:textOn="@string/playing"
                 />
-        <Button android:id="@+id/saw"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="@string/saw" />
-        <Button android:id="@+id/square"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="@string/square" />
+        <ToggleButton android:id="@+id/saw"
+                android:textOff="@string/saw"
+                style="@style/retroButton"
+                android:textOn="@string/playing"
+                />
+        <ToggleButton android:id="@+id/square"
+                android:textOff="@string/square"
+                style="@style/retroButton"
+                android:textOn="@string/playing"
+                />
 
     </LinearLayout>
 

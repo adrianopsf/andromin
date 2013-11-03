@@ -1,0 +1,15 @@
+# Copia todas las versiones de un drawable de la version de android indicada
+
+if [ -z "$2" ]; then
+  echo "Error: Missing args. "
+  echo '  bin/copy-drawable <android_version> <drawable_name>'
+  echo "ej: bin/copy-drawable android-17 ic_menu_refresh.png"
+  exit 1;
+fi
+
+for i in drawable drawable-mdpi drawable-ldpi drawable-hdpi drawable-xhdpi; do
+  FILE=/opt/adt/sdk/platforms/$1/data/res/$i/$2
+  DEST=src/main/res/$i/$2
+  echo "Copying $FILE to $DEST"
+  cp $FILE $DEST
+done

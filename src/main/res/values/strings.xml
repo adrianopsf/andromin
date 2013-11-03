@@ -7,5 +7,6 @@
     <string name="sine">Sine wave</string>
     <string name="saw">Saw wave</string>
     <string name="square">Square wave</string>
+    <string name="playing">Now playing...</string>
 
 </resources>
