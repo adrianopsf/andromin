@@ -157,4 +157,44 @@ public class WavePlayer implements AudioTrack.OnPlaybackPositionUpdateListener
         }
     }
 
+    private class SawGenerator implements Runnable {
+
+        @Override
+        public void run() {
+
+            /* 8000 bytes per second, 1000 bytes = 125 ms */
+            short[] audioData = new short[REFILLSIZE];
+            float freq = 2000, gain = 6000, nbSamplesPerCycle;
+
+            while(playing) {
+                for (int i=0; i<REFILLSIZE; i++)
+                {
+                    nbSamplesPerCycle = (float)sampleRate / freq;
+                    audioData[i] = (short)FloatMath.floor(FloatMath.sin(TWOPI/REFILLSIZE*freq*i) * gain);
+                }
+                track.write(audioData, 0, audioData.length);
+            }
+        }
+    }
+
+    private class SquareGenerator implements Runnable {
+
+        @Override
+        public void run() {
+
+            /* 8000 bytes per second, 1000 bytes = 125 ms */
+            short[] audioData = new short[REFILLSIZE];
+            float freq = 2000, gain = 6000, nbSamplesPerCycle;
+
+            while(playing) {
+                for (int i=0; i<REFILLSIZE; i++)
+                {
+                    nbSamplesPerCycle = (float)sampleRate / freq;
+                    audioData[i] = (short)FloatMath.floor(FloatMath.sin(TWOPI/REFILLSIZE*freq*i) * gain);
+                }
+                track.write(audioData, 0, audioData.length);
+            }
+        }
+    }
+
 }
