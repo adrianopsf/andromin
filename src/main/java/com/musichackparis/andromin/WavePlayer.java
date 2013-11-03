@@ -43,7 +43,7 @@ public class WavePlayer implements AudioTrack.OnPlaybackPositionUpdateListener
         }
         else
         {
-            start(ctx);
+            play(ctx);
             playState = true;
         }
     }

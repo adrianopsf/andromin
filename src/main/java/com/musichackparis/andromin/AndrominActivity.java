@@ -42,8 +42,7 @@ public class AndrominActivity extends Activity implements View.OnClickListener, 
     {
         switch(v.getId())
         {
-            case R.id.play: wavePlayer.play(this); break;
-            case R.id.stop: wavePlayer.stop(this); break;
+            case R.id.play: wavePlayer.playStopToggle(this); break;
         }
     }
 
