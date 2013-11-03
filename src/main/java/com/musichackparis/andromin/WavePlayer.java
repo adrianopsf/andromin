@@ -1,4 +1,4 @@
-package org.musichackparis.andromin;
+package com.musichackparis.andromin;
 
 import android.content.Context;
 import android.widget.Toast;
